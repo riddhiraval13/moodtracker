@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodTracker - Track Your Daily Mood</title>
+    <link rel="stylesheet" href="mood-tracker.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-heart"></i>
+                    <h1>MoodTracker</h1>
+                </div>
+                <p class="tagline">Track your daily emotions and discover patterns</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Today's Mood Section -->
+            <section class="today-section">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-day"></i>
+                    How are you feeling today?
+                </h2>
+                <div class="mood-grid" id="moodGrid">
+                    <div class="mood-card" data-mood="excellent" onclick="selectMood('excellent')">
+                        <div class="mood-emoji">😊</div>
+                        <h3>Excellent</h3>
+                        <p>Feeling great!</p>
+                    </div>
+                    <div class="mood-card" data-mood="good" onclick="selectMood('good')">
+                        <div class="mood-emoji">🙂</div>
+                        <h3>Good</h3>
+                        <p>Pretty good day</p>
+                    </div>
+                    <div class="mood-card" data-mood="okay" onclick="selectMood('okay')">
+                        <div class="mood-emoji">😐</div>
+                        <h3>Okay</h3>
+                        <p>Just okay</p>
+                    </div>
+                    <div class="mood-card" data-mood="bad" onclick="selectMood('bad')">
+                        <div class="mood-emoji">😔</div>
+                        <h3>Bad</h3>
+                        <p>Not feeling great</p>
+                    </div>
+                    <div class="mood-card" data-mood="terrible" onclick="selectMood('terrible')">
+                        <div class="mood-emoji">😢</div>
+                        <h3>Terrible</h3>
+                        <p>Really bad day</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mood Details Section -->
+            <section class="details-section" id="detailsSection" style="display: none;">
+                <h3 class="details-title">Tell us more about your day</h3>
+                <div class="details-form">
+                    <div class="form-group">
+                        <label for="activities">What did you do today?</label>
+                        <div class="activities-grid">
+                            <div class="activity-item" data-activity="work">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Work</span>
+                            </div>
+                            <div class="activity-item" data-activity="exercise">
+                                <i class="fas fa-dumbbell"></i>
+                                <span>Exercise</span>
+                            </div>
+                            <div class="activity-item" data-activity="social">
+                                <i class="fas fa-users"></i>
+                                <span>Social</span>
+                            </div>
+                            <div class="activity-item" data-activity="hobby">
+                                <i class="fas fa-palette"></i>
+                                <span>Hobby</span>
+                            </div>
+                            <div class="activity-item" data-activity="rest">
+                                <i class="fas fa-couch"></i>
+                                <span>Rest</span>
+                            </div>
+                            <div class="activity-item" data-activity="family">
+                                <i class="fas fa-home"></i>
+                                <span>Family</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Additional notes (optional)</label>
+                        <textarea id="notes" placeholder="How was your day? What made you feel this way?"></textarea>
+                    </div>
+                    <button class="save-btn" onclick="saveMood()">
+                        <i class="fas fa-save"></i>
+                        Save Today's Mood
+                    </button>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Your Mood Statistics
+                </h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalDays">0</h3>
+                            <p>Days Tracked</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="avgMood">-</h3>
+                            <p>Average Mood</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="streak">0</h3>
+                            <p>Day Streak</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="bestMood">-</h3>
+                            <p>Best Mood</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mood History Section -->
+            <section class="history-section">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Recent Mood History
+                </h2>
+                <div class="history-container" id="historyContainer">
+                    <!-- Mood history will be populated here -->
+                </div>
+            </section>
+
+            <!-- Mood Chart Section -->
+            <section class="chart-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Mood Trends
+                </h2>
+                <div class="chart-container">
+                    <canvas id="moodChart" width="400" height="200"></canvas>
+                </div>
+            </section>
+        </main>
+
+        <!-- Success Modal -->
+        <div class="modal" id="successModal">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Mood Saved!</h3>
+                    <p>Your mood has been recorded successfully.</p>
+                    <button class="modal-btn" onclick="closeSuccessModal()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export/Import Section -->
+        <section class="export-section">
+            <h2 class="section-title">
+                <i class="fas fa-download"></i>
+                Data Management
+            </h2>
+            <div class="export-buttons">
+                <button class="export-btn" onclick="exportData()">
+                    <i class="fas fa-download"></i>
+                    Export Data
+                </button>
+                <button class="import-btn" onclick="importData()">
+                    <i class="fas fa-upload"></i>
+                    Import Data
+                </button>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleImportFile(event)">
+            </div>
+        </section>
+    </div>
+
+    <script src="mood-tracker.js"></script>
+</body>
+</html> 
